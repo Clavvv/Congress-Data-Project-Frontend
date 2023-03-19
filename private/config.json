@@ -1,8 +1,8 @@
 {
-    "database":{
+    "database_configuration":{
         "host": "localhost",
-        "port": 5432,
-        "database": "GOV_INFO",
+        "port": "5432",
+        "database": "test",
         "user": "frontend",
         "password": "gooseisloose22!!"
     }
