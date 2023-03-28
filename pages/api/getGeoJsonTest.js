@@ -27,14 +27,6 @@ export default function getGeoJsonTest(req, res) {
                 };
             });
             const json = JSON.stringify(results);
-            fs.writeFile('result.json', json, (err) => {
-                if (err) {
-                    console.error('Error Writing File', err.stack);
-                }
-                else {
-                    console.log('File Saved Successfully');
-                }
-            });
         })
         .catch((err) => console.error('Error Executing Query...', err.stack));
 }
