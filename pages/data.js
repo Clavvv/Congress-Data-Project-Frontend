@@ -9,17 +9,30 @@ export default class Data extends React.Component {
         this.toggleGraph= this.toggleGraph.bind(this)
 
         this.state = {
-            data: null
+            data: 'HELLO!'
 
         }
     }
 
-    toggleGraph(e) {
+    /*toggleGraph(e) {
         e.preventDefault()
-        this.setState({ data: this.fetchDataPreview })
+        this.fetchDataPreview().then(data => {
+            this.setState({ data })
+        })
 
 
-    }
+    }*/
+
+    toggleGraph(e) {
+        e.preventDefault();
+        this.fetchDataPreview()
+          .then(data => {
+            this.setState({ data });
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+          });
+      }
 
 
     fetchDataPreview = async () => {
@@ -32,6 +45,8 @@ export default class Data extends React.Component {
             console.error('Error', error)
         }
     }
+
+    
 
 
     render() {
@@ -63,6 +78,8 @@ export default class Data extends React.Component {
                         </table>
 
                         <button className='m-2 p-1 self-center justify-center rounded border-2 border-black bg-white' onClick={(event) => this.toggleGraph(event)}>Show Graph</button>
+
+                        <div>CHART</div>
 
                     </div>
                 </div>
