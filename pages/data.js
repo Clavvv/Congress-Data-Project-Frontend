@@ -1,16 +1,26 @@
 import React from 'react'
+import { resolve } from 'path'
+import { Bar } from 'react-chartjs-2'
 import {
     Chart as ChartJS,
-    BarElement,
     CategoryScale,
     LinearScale,
+    PointElement,
+    Title,
     Tooltip,
-    Legend
+    Legend,
+    BarElement,
 } from 'chart.js'
 
-import { Bar } from 'react-chartjs-2'
-
-ChartJS.register()
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+)
 
 
 export default class Data extends React.Component {
@@ -21,7 +31,7 @@ export default class Data extends React.Component {
         this.toggleGraph = this.toggleGraph.bind(this)
 
         this.state = {
-            data: null
+            data: this.props.data
 
         }
     }
@@ -51,13 +61,19 @@ export default class Data extends React.Component {
 
 
 
-
-
-
     render() {
-        const someData= this.fetchDataPreview()
-        const options= null
 
+
+        var dataset= {
+            label: 'Alex Rodriguez hits the baseball this many times',
+            data: this.state.data
+
+        }
+
+        var options= {
+            responsive: true
+
+            }
 
         const noChart =
 
@@ -88,7 +104,7 @@ export default class Data extends React.Component {
 
                         <button className='m-2 p-1 self-center justify-center rounded border-2 border-black bg-white' onClick={(event) => this.toggleGraph(event)}>Show Graph</button>
 
-                        
+
                     </div>
                 </div>
             </div>
@@ -96,7 +112,7 @@ export default class Data extends React.Component {
 
         const chart =
             <Bar
-                data={this.state.data}
+                data={dataset}
                 options={options}>
 
             </Bar>
@@ -107,8 +123,6 @@ export default class Data extends React.Component {
 
                 {noChart}
                 {chart}
-                
-
 
             </div>
 
@@ -120,3 +134,46 @@ export default class Data extends React.Component {
 
 
 }
+
+export async function getServerSideProps() {
+
+    const { Pool } = require('pg');
+    const config = require('private/config.json')
+
+    const pool = new Pool({
+        user: config.database_configuration.user,
+        password: config.database_configuration.password,
+        host: config.database_configuration.host,
+        database: config.database_configuration.database,
+        port: config.database_configuration.port,
+        idleTimeoutMillis: 30000,
+        connectiontimeoutMillis: 2000,
+        max: 10
+    })
+
+    const results= await pool
+        .query('SELECT * FROM alexrodhomerun;')
+
+
+    for (let i= 0; i < results.rows.length; i++) {
+        results.rows[i]['homeruns']= Number(results.rows[i]['homeruns'])
+    }
+
+    return {props: { data: results.rows }}
+    
+        /*.then((result) => {
+            const results = result.rows.map(row => {
+                return {props: {
+                    "home_runs": row.HR,
+                    "year": row.Year
+                } };
+            });*/
+            /*const json = JSON.stringify(results);
+            return {props: { json } }
+        })
+        .catch((err) => {
+            console.error('Error executing query...', err.stack);
+            return {props: { 'False': 0 } }
+        });*/
+}
+
