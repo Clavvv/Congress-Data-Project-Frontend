@@ -1,4 +1,16 @@
 import React from 'react'
+import {
+    Chart as ChartJS,
+    BarElement,
+    CategoryScale,
+    LinearScale,
+    Tooltip,
+    Legend
+} from 'chart.js'
+
+import { Bar } from 'react-chartjs-2'
+
+ChartJS.register()
 
 
 export default class Data extends React.Component {
@@ -6,33 +18,24 @@ export default class Data extends React.Component {
     constructor(props) {
         super(props);
 
-        this.toggleGraph= this.toggleGraph.bind(this)
+        this.toggleGraph = this.toggleGraph.bind(this)
 
         this.state = {
-            data: 'HELLO!'
+            data: null
 
         }
     }
 
-    /*toggleGraph(e) {
-        e.preventDefault()
-        this.fetchDataPreview().then(data => {
-            this.setState({ data })
-        })
-
-
-    }*/
-
     toggleGraph(e) {
         e.preventDefault();
         this.fetchDataPreview()
-          .then(data => {
-            this.setState({ data });
-          })
-          .catch(error => {
-            console.error('Error fetching data:', error);
-          });
-      }
+            .then(data => {
+                this.setState({ data });
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
 
 
     fetchDataPreview = async () => {
@@ -46,11 +49,17 @@ export default class Data extends React.Component {
         }
     }
 
-    
+
+
+
 
 
     render() {
-        return (
+        const someData= this.fetchDataPreview()
+        const options= null
+
+
+        const noChart =
 
             <div className='flex h-screen w-screen'>
                 <div className='h-full w-full'>
@@ -79,10 +88,28 @@ export default class Data extends React.Component {
 
                         <button className='m-2 p-1 self-center justify-center rounded border-2 border-black bg-white' onClick={(event) => this.toggleGraph(event)}>Show Graph</button>
 
-                        <div>CHART</div>
-
+                        
                     </div>
                 </div>
+            </div>
+
+
+        const chart =
+            <Bar
+                data={this.state.data}
+                options={options}>
+
+            </Bar>
+
+        return (
+
+            <div>
+
+                {noChart}
+                {chart}
+                
+
+
             </div>
 
 
