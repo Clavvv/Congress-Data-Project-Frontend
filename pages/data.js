@@ -63,19 +63,8 @@ export default class Data extends React.Component {
 
     render() {
 
+        return (
 
-        var dataset= {
-            label: 'Alex Rodriguez hits the baseball this many times',
-            data: this.state.data
-
-        }
-
-        var options= {
-            responsive: true
-
-            }
-
-        const noChart =
 
             <div className='flex h-screen w-screen'>
                 <div className='h-full w-full'>
@@ -109,22 +98,6 @@ export default class Data extends React.Component {
                 </div>
             </div>
 
-
-        const chart =
-            <Bar
-                data={dataset}
-                options={options}>
-
-            </Bar>
-
-        return (
-
-            <div>
-
-                {noChart}
-                {chart}
-
-            </div>
 
 
 
@@ -176,4 +149,3 @@ export async function getServerSideProps() {
             return {props: { 'False': 0 } }
         });*/
 }
-
