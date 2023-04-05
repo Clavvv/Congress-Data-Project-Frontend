@@ -39,11 +39,6 @@ const data= {
 }
 
 
-
-
-
-
-
 export default class TestPage extends React.Component {
     constructor(props) {
 

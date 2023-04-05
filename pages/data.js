@@ -1,6 +1,7 @@
 import React from 'react'
 import { resolve } from 'path'
 import { Bar } from 'react-chartjs-2'
+import BarChart from './components/BarChart'
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -23,43 +24,36 @@ ChartJS.register(
 )
 
 
+
+
+
+
 export default class Data extends React.Component {
 
     constructor(props) {
         super(props);
 
-        this.toggleGraph = this.toggleGraph.bind(this)
+        const labels= this.props.data.map((data)=> data.month)
 
-        this.state = {
-            data: this.props.data
+        console.log(this.props.data)
+
+        const data= {
+            labels,
+            datasets: [
+                {
+                    label: 'Congressional Votes by Month',
+                    data: this.props.data.map((data)=> data.count),
+                    backgroundColor: 'rgba(255, 99, 132, 0.5',
+                    borderColor: 'black',
+                    borderWidth: 2,
+                },
+            ],
 
         }
-    }
-
-    toggleGraph(e) {
-        e.preventDefault();
-        this.fetchDataPreview()
-            .then(data => {
-                this.setState({ data });
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }
-
-
-    fetchDataPreview = async () => {
-        try {
-            const res = await fetch('/api/getGeoJsonTest')
-            const data = await res.json()
-            return data
-
-        } catch (error) {
-            console.error('Error', error)
+        this.state= {
+            data: data,
         }
     }
-
-
 
     render() {
 
@@ -68,7 +62,7 @@ export default class Data extends React.Component {
 
             <div className='flex h-screen w-screen'>
                 <div className='h-full w-full'>
-                    <div className='flex flex-col h-full col-span-6 justify-center bg-red-300'>
+                    <div className='flex flex-col h-full col-span-6 justify-center bg-white'>
                         <table className='mx-auto border border-slate-500 border-collapse'>
                             <thead className='border border-separate border-slate-500'>
                                 <tr>
@@ -91,7 +85,11 @@ export default class Data extends React.Component {
                             </tbody>
                         </table>
 
-                        <button className='m-2 p-1 self-center justify-center rounded border-2 border-black bg-white' onClick={(event) => this.toggleGraph(event)}>Show Graph</button>
+                        <button className='m-2 p-1 self-center justify-center rounded border-2 border-black bg-white'>Show Graph</button>
+
+                        <div>
+                            <BarChart chartData={this.state.data}/>
+                        </div>
 
 
                     </div>
@@ -125,27 +123,18 @@ export async function getServerSideProps() {
     })
 
     const results= await pool
-        .query('SELECT * FROM alexrodhomerun;')
-
+        .query("SELECT TO_CHAR(DATE_TRUNC('month', house_roll_call.date), 'MM') as month, count(*) as count from house_roll_call group by month;")
 
     for (let i= 0; i < results.rows.length; i++) {
-        results.rows[i]['homeruns']= Number(results.rows[i]['homeruns'])
+
+        let tempString= `2000-${results.rows[i]["month"]}-01`
+        let date= new Date(tempString)
+        let monthName= date.toLocaleString('default', {month: 'long'})
+
+        results.rows[i]['month']= monthName
+
     }
+    console.log(results.rows)
 
     return {props: { data: results.rows }}
-    
-        /*.then((result) => {
-            const results = result.rows.map(row => {
-                return {props: {
-                    "home_runs": row.HR,
-                    "year": row.Year
-                } };
-            });*/
-            /*const json = JSON.stringify(results);
-            return {props: { json } }
-        })
-        .catch((err) => {
-            console.error('Error executing query...', err.stack);
-            return {props: { 'False': 0 } }
-        });*/
 }
