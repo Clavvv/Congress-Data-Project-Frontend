@@ -35,13 +35,11 @@ export default class Data extends React.Component {
 
         const labels= this.props.data.map((data)=> data.month)
 
-        console.log(this.props.data)
-
         const data= {
             labels,
             datasets: [
                 {
-                    label: 'Congressional Votes by Month',
+                    label: 'Congressional Votes by Month Since 2014',
                     data: this.props.data.map((data)=> data.count),
                     backgroundColor: 'rgba(255, 99, 132, 0.5',
                     borderColor: 'black',
@@ -125,16 +123,19 @@ export async function getServerSideProps() {
     const results= await pool
         .query("SELECT TO_CHAR(DATE_TRUNC('month', house_roll_call.date), 'MM') as month, count(*) as count from house_roll_call group by month;")
 
-    for (let i= 0; i < results.rows.length; i++) {
 
-        let tempString= `2000-${results.rows[i]["month"]}-01`
-        let date= new Date(tempString)
-        let monthName= date.toLocaleString('default', {month: 'long'})
+    results.rows.forEach(function(obj) {
+        obj.month= parseInt(obj.month)
+    })
 
-        results.rows[i]['month']= monthName
+    const monthName= ["January", "Febrary", "March", "April", "May", "June", "July", "August", "September", "October",
+                    "November", "December"]
 
-    }
-    console.log(results.rows)
+    results.rows.sort((a, b) => a.month - b.month)
 
-    return {props: { data: results.rows }}
+    const formatData= results.rows.map(x => {
+        return { month: monthName[x.month - 1], count: x.count }
+    })
+
+    return {props: { data: formatData }}
 }
