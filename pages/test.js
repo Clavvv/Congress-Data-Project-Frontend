@@ -1,42 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import BarChart from './components/BarChart'
-import {UserData} from 'private/TestData.js'
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-} from 'chart.js'
-
-import { Bar } from 'react-chartjs-2'
-
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend
-)
-
-
-
-const labels= [1999, 2000, 2001, 2002, 2003]
-
-const data= {
-    labels,
-    datasets: [
-        {label: 'users',
-        data: UserData.map((data)=> data.users),
-        backgroundColor: 'rgba(255, 99, 132, 0.5',
-        borderColor: 'black',
-        borderWidth: 2,
-        },
-    ],
-}
+import React from 'react'
+import DistrictMap from './components/Map'
 
 
 export default class TestPage extends React.Component {
@@ -55,11 +18,18 @@ export default class TestPage extends React.Component {
         return (
 
             <div>
-                <BarChart chartData={data}/>
+                <districtMap geoData= {this.props.geoData}/>
             </div>
 
 
 
         );
     }
+}
+
+export async function getServerSideprops() {
+    const response= await fetch('/api/getMultipolygons')
+    const data= await response.json()
+    return { props: { geoData: data } }
+
 }

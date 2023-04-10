@@ -1,9 +1,10 @@
 import { resolve } from 'path';
 
-export default function getGeoJsonTest(req, res) {
+export default async function getGeoJsonTest(req, res) {
     const { Pool } = require('pg');
     const config = require('private/config.json');
-  
+    try {
+
     const pool = new Pool({
       user: config.database_configuration.user,
       password: config.database_configuration.password,
@@ -13,24 +14,27 @@ export default function getGeoJsonTest(req, res) {
       idleTimeoutMillis: 30000,
       connectiontimeoutMillis: 2000,
       max: 10
-    });
-  
-    pool
-      .query('')
-      .then((result) => {
-        const results = result.rows.map(row => {
-          return {
-            "district_id": row.CD108IDFP,
-            "year": row.Year
-          };
-        });
-        const json = JSON.stringify(results);
-        res.status(200).json(json)
-        resolve();
-      })
-      .catch((err) => {
-        console.error('Error executing query...', err.stack);
-        res.status(500).send('Internal Server Error');
-        resolve();
-      });
+    })
+
+    const { rows }= await pool.query('select p_id, geometry from cd116;')
+
+    const features= rows.map((row) => ({
+      type: 'Feature',
+      geometry: JSON.parse(row.geometry),
+      properties: {
+        district_id: row.p_id,
+      },
+
+    }))
+
+    const geojson= {
+      type: 'FeatureCollection',
+      features,
+    }
+
+      res.status(200).json(geojson)
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ error: 'Something Went Wrong...'})
+    }
   }
