@@ -1,143 +1,82 @@
-import React from 'react'
+import React from 'react';
+import {
+  Chart as ChartJS,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Legend,
+  Title,
+} from 'chart.js';
+import { Scatter } from 'react-chartjs-2';
+import ScatterPlot from './components/ScatterPlot';
 
-
-
+ChartJS.register(
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 export default class Home extends React.Component {
-    constructor(props) {
-
-        super(props);
-
-        this.handleCardFace = this.handleCardFace.bind(this)
-        this.handleCardRear = this.handleCardRear.bind(this)
-        this.clearDefaultText = this.clearDefaultText.bind(this)
-        this.toggleLog = this.toggleLog.bind(this)
-
-        this.state = {
-            front: 'Front of Card',
-            back: 'Back of Card',
-            logOpen: false
-        }
-
-    }
-
-    handleCardFace(e) {
-
-        e.preventDefault()
-
-        this.setState({ front: e.target.value })
-
-    }
-
-    handleCardRear(e) {
-
-        e.preventDefault()
-
-        this.setState({ back: e.target.value })
-
-    }
-
-    clearDefaultText(e, key) {
-
-        if (key == 'reset') {
-            this.setState({
-                back: 'Back of Card',
-                front: 'Front of Card'
-            })
-        }
-
-        e.preventDefault()
-
-        this.setState({ [key]: '' })
-
-    }
-
-
-
-    toggleLog(e) {
-
-        e.preventDefault()
-
-        const prev = this.state.logOpen
-
-
-
-        if (prev) {
-
-            this.setState({ logOpen: false })
-            console.log('cum off')
-
-        }
-
-        else {
-
-            this.setState({ logOpen: true })
-            console.log("cum on")
-
-        }
-    }
-
-
-
-    render() {
-
-        const dfault = <div className={`flex flex-col col-span-${this.state.logOpen ? 6 : 4} gap-4 h-full w-full place-content-center place-items-center justify-center`}>
-
-            <div className="flex flex-row gap-5 bg-white place-items-center justify-center">
-
-                <div className="flex bg-slate-500 border-2 justify-center place-items-center border-black">
-
-                    <input className="text-gray-400 text-center w-full h-full p-6" type="text" onClick={(event) => this.clearDefaultText(event, 'front')} onChange={(event) => this.handleCardFace(event)} value={this.state.front} />
-
-                </div>
-
-                <div className="flex bg-slate-500 border-2 justify-center place-items-center border-black">
-
-                    <input className="text-gray-400 text-center w-full h-full p-6" type="text" onClick={(event) => this.clearDefaultText(event, 'back')} onChange={(event) => this.handleCardRear(event)} value={this.state.back} />
-
-                </div>
-
-            </div>
-
-            <div className='flex flex-row gap-2 w-1/2 bg-white place-items-center justify-around'>
-
-                <button className='border border-black w-20 p-2'> Submit </button>
-
-                <button className='border border-black w-20 p-2' onClick={(event) => this.clearDefaultText(event, 'reset')}> Reset </button>
-
-                <button className='border border-black w-20 p-2' onClick={(event) => this.toggleLog(event)}>Log</button>
-
-            </div>
-        </div>
-
-
-
-
-
-        /* ################################################################################################################################################################## */
-
-
-
-
-
-        return (
-
-            <div className='flex w-screen h-screen place-items-center justify-center'>
-
-                {dfault}
-
-            </div>
-
-
-
-
-
-
-
-
-
-
-
-        )
-    }
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: null,
+    };
+  }
+
+
+  componentDidMount() {
+    
+    this.setState({ data: this.props.data })
+  }
+
+  render() {
+    return (
+      <div>
+        {this.state.data ? (
+          <ScatterPlot data={this.state.data} />
+        ) : (
+          <p>Loading...</p>
+        )}
+      </div>
+    )
+  }
+}
+
+export async function getServerSideProps() {
+  const { Pool } = require('pg');
+  const config = require('private/config.json');
+
+  const pool = new Pool({
+    user: config.database_configuration.user,
+    password: config.database_configuration.password,
+    host: config.database_configuration.host,
+    database: config.database_configuration.database,
+    port: config.database_configuration.port,
+    idleTimeoutMillis: 30000,
+    connectiontimeoutMillis: 2000,
+    max: 10,
+  });
+
+  const results = await pool.query(
+    'SELECT congress, bioname, party_code, nominate_dim1, nominate_dim2, nokken_poole_dim1, nokken_poole_dim2 FROM member_ideology where congress = 112;'
+  );
+
+  const formatData = results.rows.map((x) => {
+    return {
+      party: x.party_code,
+      name: x.bioname,
+      nominate_dim1: x.nominate_dim1,
+      nominate_dim2: x.nominate_dim2,
+      np_score_dim1: x.nokken_poole_dim1,
+      np_score_dim2: x.nokken_poole_dim2,
+    };
+  });
+
+  return { props: { data: formatData } };
 }
