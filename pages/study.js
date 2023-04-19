@@ -9,7 +9,7 @@ import {
   Title,
 } from 'chart.js';
 import { Scatter } from 'react-chartjs-2';
-import ScatterPlot from './components/ScatterPlot';
+import ScatterPlot from './components/MemberScatterPlot';
 
 ChartJS.register(
   LinearScale,
@@ -25,24 +25,54 @@ export default class Home extends React.Component {
     super(props);
 
     this.state = {
-      data: null,
-    };
+      memberData_one: null,
+      memberData_two: null,
+    }
   }
 
 
   componentDidMount() {
-    
-    this.setState({ data: this.props.data })
+
+    this.setState({ memberData_one: this.props.data })
   }
 
   render() {
     return (
-      <div>
-        {this.state.data ? (
-          <ScatterPlot data={this.state.data} />
-        ) : (
-          <p>Loading...</p>
-        )}
+      <div className='flex h-screen w-screen'>
+
+        <div className='flex h-full w-full flex-row'>
+
+          <div className='h-full w-full'>
+
+            {this.state.data ? (
+              <ScatterPlot data={this.state.memberData_one} chartTitle="Congress 112 Member DW_Nominate Scores" />
+            ) : (
+              <p>Loading...</p>
+            )}
+
+          </div>
+
+          <div className='h-full w-full'>
+
+          {this.state.data ? (
+            <ScatterPlot data={this.state.memberData_two} chartTitle="Congress 118 Member DW_Nominate Scores" />
+          ) : (
+            <p>Loading...</p>
+          )}
+
+          </div>
+
+        </div>
+
+        <div>
+
+
+
+
+        </div>
+
+
+
       </div>
     )
   }
@@ -64,8 +94,8 @@ export async function getServerSideProps() {
   });
 
   const results = await pool.query(
-    'SELECT congress, bioname, party_code, nominate_dim1, nominate_dim2, nokken_poole_dim1, nokken_poole_dim2 FROM member_ideology where congress = 112;'
-  );
+    `SELECT congress, bioname, party_code, nominate_dim1, nominate_dim2, nokken_poole_dim1, nokken_poole_dim2 FROM member_ideology where congress = 118;`
+  )
 
   const formatData = results.rows.map((x) => {
     return {
