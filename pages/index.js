@@ -20,9 +20,9 @@ export default class Home extends React.Component {
                 	  <p className="font-sans font-semibold text-2xl">Process Development</p>
 		            </div>
                 <div className="flex flex-row gap-5 place-items-center justify-evenly">
-                    <Link href="/study">
+                    <Link href="/main">
                         <button className="rounded-lg border-2 border-black p-5 w-40 text-3xl
-                            focus:outline-none hover:bg-orange-600 hover:text-white hover:border-orange-600 focus:border-white "><p>Study</p></button>
+                            focus:outline-none hover:bg-orange-600 hover:text-white hover:border-orange-600 focus:border-white "><p>Main</p></button>
                     </Link>
                     <Link href="/test">
                         <button className="rounded-lg border-2 border-black p-5 w-40 text-3xl 
