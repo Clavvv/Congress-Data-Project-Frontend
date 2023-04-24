@@ -10,7 +10,8 @@ import {
 } from 'chart.js'
 import { Scatter } from 'react-chartjs-2'
 import ScatterPlot from './components/MemberScatterPlot'
-import { Pool } from 'pg'
+import query from './api/query'
+import axios from 'axios'
 
 ChartJS.register(
   LinearScale,
@@ -23,14 +24,19 @@ ChartJS.register(
 
 export default class Home extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       data: null,
       compareData: null,
-      display_compare_chart: true,
+      display_compare_chart: false,
       compareSearch: 'Enter year or congress',
     }
+
+
+    const [chartData1, setChart1]= useState(null)
+    const [chartData2, setChart2]= useState(null)
+    
 
     this.handleTextInput = this.handleTextInput.bind(this)
     this.resetDefaultText = this.resetDefaultText.bind(this)
@@ -43,62 +49,79 @@ export default class Home extends React.Component {
   componentDidMount() {
 
     this.setState({ data: this.props.data })
-  }
-
-  handleCompare = (e) => {
-
-    
-
-    this.setState({ display_compare_chart: !this.state.display_compare_chart })
-    this.setState({compareData: {}})
 
   }
 
-  handleTextInput(e) {
 
-    e.preventDefault()
 
-    this.setState({ compareSearch: e.target.value })
+
+
+  handleCompare = async (e) => {
+
+    const formatInput = (inputString) => {
+
+      let sanitizedString = inputString.replace(/'/g, "''")
+      let queryString = 'SELECT congress, bioname, party_code, nominate_dim1, nominate_dim2, nokken_poole_dim1, nokken_poole_dim2 FROM member_ideology where congress = $1;'
+
+      return [queryString, [sanitizedString]]
+
+    }
+
+
+    let formattedInput= formatInput(this.state.compareSearch)
+    console.log(formattedInput)
+    // let results= await query(formatI)
+
+
   }
 
-  resetDefaultText(e) {
-    e.preventDefault()
-    this.setState({ compareSearch: this.state.compareSearch === 'Enter year or congress' ? '' : this.state.compareSearch })
-  }
 
-  render() {
-    return (
-      <div className='flex h-screen w-screen'>
 
-        <div className='flex h-full w-full flex-row justify-evenly justify-items-center'>
+handleTextInput(e) {
 
-          <div className='h-1/2 w-1/2'>
+  e.preventDefault()
 
-            {this.state.data ? (
-              <ScatterPlot data={this.state.data} chartTitle="Congress 118 Member DW_Nominate Scores" />
-            ) : (
-              <p>Loading...</p>
-            )}
+  this.setState({ compareSearch: e.target.value })
+}
 
+resetDefaultText(e) {
+  e.preventDefault()
+  this.setState({ compareSearch: this.state.compareSearch === 'Enter year or congress' ? '' : this.state.compareSearch })
+}
+
+render() {
+  return (
+    <div className='flex h-screen w-screen'>
+
+      <div className='flex h-full w-full flex-row justify-evenly justify-items-center'>
+
+        <div className='h-1/2 w-1/2'>
+
+          {this.state.data ? (
+            <ScatterPlot data={this.state.data} chartTitle="Congress 118 Member DW_Nominate Scores" />
+          ) : (
+            <p>Loading...</p>
+          )}
+
+        </div>
+
+        <div className='flex flex-col place-self-center'>
+
+          <div className='border rounded-md border-2 border-black p-1 justify-items-center'>
+            <input className='place-self-center' type='search' value={this.state.compareSearch} onChange={this.handleTextInput} onClick={this.resetDefaultText} ></input>
           </div>
 
-          <div className='flex flex-col place-self-center'>
-
-            <div className='border rounded-md border-2 border-black p-1 justify-items-center'>
-              <input className='place-self-center font-semibold' type='search' value={this.state.compareSearch} onChange={this.handleTextInput} onClick={this.resetDefaultText} ></input>
-            </div>
-
-            <button onClick={(e) => this.handleCompare(e)}> Compare </button>
+          <button className='border border-black w-1/2 justify-center place-self-center m-2 rounded-md border-2' onClick={(e) => this.handleCompare(e)}> Compare </button>
 
 
 
 
 
-          </div>
+        </div>
 
 
 
-          {/*<div className='h-full w-full'>
+        {/*<div className='h-full w-full'>
 
           {this.state.data ? (
             <ScatterPlot data={this.state.data} chartTitle="Congress 118 Member DW_Nominate Scores" />
@@ -108,42 +131,18 @@ export default class Home extends React.Component {
 
           </div>*/}
 
-        </div>
-
-
       </div>
-    )
-  }
+
+
+    </div>
+  )
+}
 }
 
 export async function getServerSideProps() {
-  const config = require('private/config.json')
 
-  const pool = new Pool({
-    user: config.database_configuration.user,
-    password: config.database_configuration.password,
-    host: config.database_configuration.host,
-    database: config.database_configuration.database,
-    port: config.database_configuration.port,
-    idleTimeoutMillis: 30000,
-    connectiontimeoutMillis: 2000,
-    max: 10,
-  })
+  let api_response = await query('SELECT congress, bioname, party_code, nominate_dim1, nominate_dim2, nokken_poole_dim1, nokken_poole_dim2 FROM member_ideology where congress = 118;')
 
-  const results = await pool.query(
-    'SELECT congress, bioname, party_code, nominate_dim1, nominate_dim2, nokken_poole_dim1, nokken_poole_dim2 FROM member_ideology where congress = 118;'
-  )
 
-  const formatData = results.rows.map((x) => {
-    return {
-      party: x.party_code,
-      name: x.bioname,
-      nominate_dim1: x.nominate_dim1,
-      nominate_dim2: x.nominate_dim2,
-      np_score_dim1: x.nokken_poole_dim1,
-      np_score_dim2: x.nokken_poole_dim2,
-    }
-  })
-
-  return { props: { data: formatData } }
+  return { props: { data: api_response } }
 }
