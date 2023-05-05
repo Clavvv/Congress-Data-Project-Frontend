@@ -86,11 +86,11 @@ export async function getServerSideProps() {
     const config = require('private/config.json')
 
     const pool = new Pool({
-        user: config.database_configuration.user,
-        password: config.database_configuration.password,
-        host: config.database_configuration.host,
-        database: config.database_configuration.database,
-        port: config.database_configuration.port,
+        user: config.user,
+        password: config.password,
+        host: config.host,
+        database: config.database,
+        port: config.port,
         idleTimeoutMillis: 30000,
         connectiontimeoutMillis: 2000,
         max: 10
