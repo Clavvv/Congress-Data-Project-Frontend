@@ -44,13 +44,13 @@ export default function ChartMock() {
 
     }
 
-    const fetchData = async (e) => {
+    const fetchData = async (congArg, varArg) => {
 
         const apiUrl = '/api/query';
 
         const params = {
-            congress: sliderOne,
-            variable: selectOption,
+            congress: congArg,
+            variable: varArg,
         };
 
         try {
@@ -58,12 +58,21 @@ export default function ChartMock() {
             let response = await axios.get(apiUrl, { params })
             let data = response.data
 
-            console.log(data)
+            return data;
 
         } catch (error) {
             console.error(error)
         }
 
+
+    }
+
+    const updateChartData = async (e) => {
+
+        let [chartOne, chartTwo]= await Promise.all([fetchData(sliderOne, selectOption), fetchData(sliderTwo, selectOption)])
+
+        setFieldOne(chartOne)
+        setFieldTwo(chartTwo)
 
     }
 
@@ -83,7 +92,11 @@ export default function ChartMock() {
                                 </div>
                             </div>
                             <div className='flex w-4/5 h-4/5 m-3 justify-center place-self-center bg-gray-100 border border-black'>
-                                <h1 className='place-self-center'>Graph 1</h1>
+                                {dataChartOne ? (
+                                    <ScatterPlot data={dataChartOne} variable={selectOption}/>
+                                    ) : (
+                                    <h1 className='place-self-center'>Loading...</h1>
+                                    )}
                             </div>
                         </div>
                         <div className='flex flex-col h-full w-full'>
@@ -95,13 +108,12 @@ export default function ChartMock() {
                             </div>
                             <div className='flex h-4/5 w-4/5 m-3 bg-blue-100 justify-center place-self-center border border-black'>
 
-                                <h1 className='place-self-center'>Graph 2</h1>
+                                {dataChartTwo ? (
+                                    <ScatterPlot data={dataChartTwo} variable= {selectOption} />
+                                ) : ( 
+                                    <h1 className='place-self-center'>Loading...</h1>
 
-                                {/*{this.state.data ? (
-                                    <ScatterPlot data={this.state.data} chartTitle="Congress 118 Member DW_Nominate Scores" />
-                                ) : (
-                                    <p>Loading...</p>
-                                )}*/}
+                                )}
 
                             </div>
                         </div>
@@ -110,7 +122,7 @@ export default function ChartMock() {
                         <option value='nominate'>DW Nominate</option>
                         <option value='nokken_poole'>Nokken-Poole</option>
                     </select>
-                    <button className='border justify-center place-self-center border-black rounded-md w-32' onClick={fetchData}> Compare </button>
+                    <button className='border justify-center place-self-center border-black rounded-md w-32' onClick={updateChartData}> Compare </button>
                 </div>
             </div>
         </>

@@ -8,7 +8,8 @@ export default class ScatterPlot extends React.Component {
     super(props)
 
     this.state= {
-      title: this.props.chartTitle
+      title: this.props.chartTitle,
+      variable: this.props.variable
 
     }
 
@@ -39,7 +40,7 @@ export default class ScatterPlot extends React.Component {
         x: {
           title: {
             display: true,
-            text: 'Nominate Dimension 1',
+            text: `${this.state.variable} Dimension 1`,
             font: {
               size: 18,
             },
@@ -48,7 +49,7 @@ export default class ScatterPlot extends React.Component {
         y: {
           title: {
             display: true,
-            text: 'Nominate Dimension 2',
+            text: `${this.state.variable} Dimension 2`,
             font: {
               size: 18,
             },
