@@ -36,7 +36,12 @@ export default function ChartMock() {
 
     const [dataChartTwo, setFieldTwo] = useState(null);
 
-    function handleCompare() {
+    const [selectOption, setSelectOption]= useState('nominate')
+
+    function handleSelect(e) {
+
+        setSelectOption(e.target.value)
+
     }
 
     const fetchData = async (e) => {
@@ -45,13 +50,13 @@ export default function ChartMock() {
 
         const params = {
             congress: sliderOne,
-            variable: null
+            variable: selectOption,
         };
 
         try {
 
-            const response = await axios.get(apiUrl, { params })
-            const data = response.data.json()
+            let response = await axios.get(apiUrl, { params })
+            let data = response.data
 
             console.log(data)
 
@@ -101,7 +106,7 @@ export default function ChartMock() {
                             </div>
                         </div>
                     </div>
-                    <select className='border border-black rounded-md justify-center place-self-center m-2 p-1' name='variable_selection' id='varselect'>
+                    <select className='border border-black rounded-md justify-center place-self-center m-2 p-1' onChange={handleSelect} name='variable_selection' id='varselect'>
                         <option value='nominate'>DW Nominate</option>
                         <option value='nokken_poole'>Nokken-Poole</option>
                     </select>
