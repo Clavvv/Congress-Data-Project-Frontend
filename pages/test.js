@@ -38,6 +38,15 @@ export default function ChartMock() {
 
     const [selectOption, setSelectOption]= useState('nominate')
 
+
+    useEffect(() => {
+
+        updateChartData()
+        
+
+
+    }, [sliderOne, sliderTwo, selectOption]);
+
     function handleSelect(e) {
 
         setSelectOption(e.target.value)

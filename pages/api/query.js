@@ -38,14 +38,15 @@ export default async function handleQuery(req, res) {
 
   let parsedResults;
 
+
   if (selectNominate) {
 
     parsedResults= result.rows.map((row) => {
       return {
         name: row.bioname,
         party: row.party_code,
-        nominate_dim1: row.nominate_dim1,
-        nominate_dim2: row.nominate_dim2,
+        variable_dim1: row.nominate_dim1,
+        variable_dim2: row.nominate_dim2,
 
       }
 
@@ -55,9 +56,9 @@ export default async function handleQuery(req, res) {
     parsedResults= result.rows.map((row)=> {
       return {
         name: row.bioname,
-        party: row.part_code,
-        nokken_poole_dim1: row.nokken_poole_dim1,
-        nokken_poole_dim2: row.nokken_poole_dim2,
+        party: row.party_code,
+        variable_dim1: row.nokken_poole_dim1,
+        variable_dim2: row.nokken_poole_dim2,
 
       }
 

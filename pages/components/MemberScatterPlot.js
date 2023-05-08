@@ -17,11 +17,13 @@ export default class ScatterPlot extends React.Component {
   }
 
   render() {
+
+
     const data = {
       datasets: [
         {
           label: null,
-          data: this.props.data.map((x) => ({ x: x.nominate_dim1, y: x.nominate_dim2, party: x.party === '100' ? 'Democrat' : 'Republican', name: x.name })),
+          data: this.props.data.map((x) => ({ x: x.variable_dim1, y: x.variable_dim2, party: x.party === '100' ? 'Democrat' : 'Republican', name: x.name })),
           borderColor: 'black',
           pointBackgroundColor: this.props.data.map((x) => x.party === '200' ? 'red' : 'blue'),
           borderWidth: 1,
@@ -40,7 +42,7 @@ export default class ScatterPlot extends React.Component {
         x: {
           title: {
             display: true,
-            text: `${this.state.variable} Dimension 1`,
+            text: `${this.props.variable} Dimension 1`,
             font: {
               size: 18,
             },
@@ -49,7 +51,7 @@ export default class ScatterPlot extends React.Component {
         y: {
           title: {
             display: true,
-            text: `${this.state.variable} Dimension 2`,
+            text: `${this.props.variable} Dimension 2`,
             font: {
               size: 18,
             },
