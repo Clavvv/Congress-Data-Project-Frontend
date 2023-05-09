@@ -12,6 +12,7 @@ import {
     Legend,
     BarElement,
 } from 'chart.js'
+import _ from 'lodash'
 
 ChartJS.register(
     CategoryScale,
@@ -24,34 +25,32 @@ ChartJS.register(
 )
 
 
-export default function ChartMock() {
+export default function ChartMock({ props }) {
 
-    const [status, setStatus] = useState('default');
-
-    const [sliderOne, setSliderOne] = useState('1');
+    const [sliderOne, setSliderOne] = useState('118');
 
     const [sliderTwo, setSliderTwo] = useState('118');
 
     const [dataChartOne, setFieldOne] = useState();
 
-    const [dataChartTwo, setFieldTwo] = useState(null);
+    const [dataChartTwo, setFieldTwo] = useState();
 
-    const [selectOption, setSelectOption]= useState('nominate')
+    const [selectOptionTwo, setSelectOptionTwo] = useState('nominate')
 
-
-    useEffect(() => {
-
-        updateChartData()
-        
+    const [selectOptionOne, setSelectOptionOne] = useState('nominate')
 
 
-    }, [sliderOne, sliderTwo, selectOption]);
+    useEffect(()=> {
 
-    function handleSelect(e) {
+        updateChartData(1)
 
-        setSelectOption(e.target.value)
+    }, [sliderOne, selectOptionOne])
 
-    }
+    useEffect(()=> {
+
+        updateChartData(2)
+
+    }, [sliderTwo, selectOptionTwo])
 
     const fetchData = async (congArg, varArg) => {
 
@@ -76,12 +75,19 @@ export default function ChartMock() {
 
     }
 
-    const updateChartData = async (e) => {
+    const updateChartData = async (chartID) => {
 
-        let [chartOne, chartTwo]= await Promise.all([fetchData(sliderOne, selectOption), fetchData(sliderTwo, selectOption)])
+        let [chartOne, chartTwo] = await Promise.all([fetchData(sliderOne, selectOptionOne), fetchData(sliderTwo, selectOptionTwo)])
 
-        setFieldOne(chartOne)
-        setFieldTwo(chartTwo)
+
+        if (chartID === 1) {
+            setFieldOne(await fetchData(sliderOne, selectOptionOne))
+        
+        } else {
+    
+            setFieldTwo(await fetchData(sliderTwo, selectOptionTwo))
+        }
+
 
     }
 
@@ -90,22 +96,27 @@ export default function ChartMock() {
         <>
 
             <div className='flex flex-col h-screen w-screen'>
-                <h2 className='flex m-4 p-2 h-6 w-full justify-center font-semibold'>Compare Congress Throughout History</h2>
-                <div className='flex flex-col h-full w-full bg-red-100'>
-                    <div className='flex flex-row h-2/3 w-full bg-gray-200 justify-evenly p-1 mt-10'>
+                <h2 className='flex m-4 p-2 h-6 w-full justify-center font-semibold'>Congressional Data Dashboard</h2>
+                <div className='flex flex-col h-full w-full bg-white'>
+                    <div className='flex flex-row h-2/3 w-full bg-white justify-evenly p-1 mt-10'>
                         <div className='flex flex-col h-full w-full'>
                             <div className='flex justify-evenly'>
                                 <div className='flex flex-row border border-black rounded-md m-1 p-2'>
-                                    <input type="range" min="1" max="118" value={sliderOne} id="sliderOne" onChange={e => setSliderOne(e.target.value)} />
+                                    <input type="range" min="1" max="118" value={sliderOne} id="sliderOne" onChange={e => setSliderOne(e.target.value)}/>
                                     <input className='border border-black rounded-sm justify-center place-self-center w-16 h-5 mx-2 px-2 py-3' onChange={e => setSliderOne(e.target.value)} type='number' value={sliderOne} />
+
+                                    <select className='border border-black rounded-md justify-center place-self-center m-2 p-1' onChange={(e) => setSelectOptionOne(e.target.value)} name='variable_selection' id='varselect'>
+                                        <option value='nominate'>DW Nominate</option>
+                                        <option value='nokken_poole'>Nokken-Poole</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div className='flex w-4/5 h-4/5 m-3 justify-center place-self-center bg-gray-100 border border-black'>
+                            <div className='flex w-4/5 h-4/5 m-3 justify-center place-self-center bg-white border border-black'>
                                 {dataChartOne ? (
-                                    <ScatterPlot data={dataChartOne} variable={selectOption}/>
-                                    ) : (
+                                    <ScatterPlot data={dataChartOne} variable={selectOptionOne} />
+                                ) : (
                                     <h1 className='place-self-center'>Loading...</h1>
-                                    )}
+                                )}
                             </div>
                         </div>
                         <div className='flex flex-col h-full w-full'>
@@ -113,13 +124,18 @@ export default function ChartMock() {
                                 <div className='flex flex-row border border-black rounded-md m-1 p-2'>
                                     <input type="range" min="1" max="118" value={sliderTwo} id="sliderTwo" step='1' onChange={e => setSliderTwo(e.target.value)} />
                                     <input className='border border-black rounded-sm justify-center place-self-center w-16 h-5 mx-2 px-2 py-3' onChange={e => setSliderTwo(e.target.value)} type='number' value={sliderTwo} />
+
+                                    <select className='border border-black rounded-md justify-center place-self-center m-2 p-1' onChange={(e) => setSelectOptionTwo(e.target.value)} name='variable_selection' id='varselect'>
+                                        <option value='nominate'>DW Nominate</option>
+                                        <option value='nokken_poole'>Nokken-Poole</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div className='flex h-4/5 w-4/5 m-3 bg-blue-100 justify-center place-self-center border border-black'>
+                            <div className='flex h-4/5 w-4/5 m-3 bg-white justify-center place-self-center border border-black'>
 
                                 {dataChartTwo ? (
-                                    <ScatterPlot data={dataChartTwo} variable= {selectOption} />
-                                ) : ( 
+                                    <ScatterPlot data={dataChartTwo} variable={selectOptionTwo} />
+                                ) : (
                                     <h1 className='place-self-center'>Loading...</h1>
 
                                 )}
@@ -127,11 +143,8 @@ export default function ChartMock() {
                             </div>
                         </div>
                     </div>
-                    <select className='border border-black rounded-md justify-center place-self-center m-2 p-1' onChange={handleSelect} name='variable_selection' id='varselect'>
-                        <option value='nominate'>DW Nominate</option>
-                        <option value='nokken_poole'>Nokken-Poole</option>
-                    </select>
-                    <button className='border justify-center place-self-center border-black rounded-md w-32' onClick={updateChartData}> Compare </button>
+
+                    <h1 className='font-semibold m-4'>Understanding The Data</h1>
                 </div>
             </div>
         </>

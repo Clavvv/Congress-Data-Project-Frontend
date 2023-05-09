@@ -11,6 +11,7 @@
     "chartjs": "^0.3.24",
     "dotenv": "^16.0.3",
     "leaflet": "^1.9.3",
+    "lodash": "^4.17.21",
     "next": "latest",
     "pg": "^8.10.0",
     "postgres": "^3.3.4",
