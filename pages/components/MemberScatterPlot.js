@@ -8,7 +8,7 @@ export default class ScatterPlot extends React.Component {
     super(props)
 
     this.state= {
-      title: this.props.chartTitle,
+      title: '',
       variable: this.props.variable
 
     }
@@ -84,8 +84,9 @@ export default class ScatterPlot extends React.Component {
 
 
       <div className='flex flex-col items-center h-full w-full'>
-          <h1 className='justify-self-center font-semibold'>{`${this.state.title}`}</h1>
-          <Scatter data={data} options={options} />
+
+          <h1 className='font-semibold text-lg m-3 p-2'>{`${this.props.title}`}</h1>
+          <Scatter className='justify-center place-self-center' data={data} options={options} />
 
       </div>
 

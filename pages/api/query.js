@@ -30,7 +30,7 @@ export default async function handleQuery(req, res) {
 
 
   const query= {
-    text: 'SELECT * from member_ideology where congress = CAST($1 AS INTEGER);',
+    text: "SELECT * from member_ideology where congress = CAST($1 AS INTEGER) and chamber = 'House';",
     values: [congressNum],
   }
 
