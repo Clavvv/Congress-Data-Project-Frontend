@@ -36,6 +36,17 @@ export default async function handleQuery(req, res) {
 
   const result= await pool.query(query)
 
+  /*const formatData = results.rows.map((x) => {
+    return {
+      party: x.party_code,
+      name: formatName(x.bioname),
+      nominate_dim1: x.nominate_dim1,
+      nominate_dim2: x.nominate_dim2,
+      np_score_dim1: x.nokken_poole_dim1,
+      np_score_dim2: x.nokken_poole_dim2,
+    }
+  })*/
+
   let parsedResults;
 
 
@@ -44,11 +55,12 @@ export default async function handleQuery(req, res) {
     parsedResults= result.rows.map((row) => {
       return {
         name: row.bioname,
-        party: row.party_code,
+        party: row.party_code.toString(),
         variable_dim1: row.nominate_dim1,
         variable_dim2: row.nominate_dim2,
 
       }
+
 
     })
 
@@ -69,15 +81,3 @@ export default async function handleQuery(req, res) {
   res.status(200).json(parsedResults)
   
 }
-
-  /*const formatData = results.rows.map((x) => {
-    return {
-      party: x.party_code,
-      name: formatName(x.bioname),
-      nominate_dim1: x.nominate_dim1,
-      nominate_dim2: x.nominate_dim2,
-      np_score_dim1: x.nokken_poole_dim1,
-      np_score_dim2: x.nokken_poole_dim2,
-    }
-  })*/
-

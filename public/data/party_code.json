@@ -1,0 +1,214 @@
+{
+   "100":{
+      "party":"Democratic Party",
+      "color":"#3b63c7"
+   },
+   "200":{
+      "party":"Republican Party",
+      "color":"#be3434"
+   },
+   "1":{
+      "party":"Federalist Party",
+      "color":"#e6194b"
+   },
+   "13":{
+      "party":"Democratic-Republican Party",
+      "color":"#3cb44b"
+   },
+   "22":{
+      "party":"Adams Party",
+      "color":"#c1a91e"
+   },
+   "26":{
+      "party":"Anti Masonic Party",
+      "color":"#0082c8"
+   },
+   "29":{
+      "party":"Whig Party",
+      "color":"#f58231"
+   },
+   "37":{
+      "party":"Constitutional Unionist Party",
+      "color":"#911eb4"
+   },
+   "44":{
+      "party":"Nullifier Party",
+      "color":"#46f0f0"
+   },
+   "46":{
+      "party":"States Rights Party",
+      "color":"#f032e6"
+   },
+   "108":{
+      "party":"Anti-Lecompton Democrats",
+      "color":"#d2f53c"
+   },
+   "112":{
+      "party":"Conservative Party",
+      "color":"#fabebe"
+   },
+   "114":{
+      "party":"Readjuster Party",
+      "color":"#008080"
+   },
+   "117":{
+      "party":"Readjuster Democrats",
+      "color":"#e6beff"
+   },
+   "203":{
+      "party":"Unconditional Unionist Party",
+      "color":"#aa6e28"
+   },
+   "206":{
+      "party":"Unionist Party",
+      "color":"#fffac8"
+   },
+   "208":{
+      "party":"Liberal Republican Party",
+      "color":"#800000"
+   },
+   "213":{
+      "party":"Progressive Republican Party",
+      "color":"#aaffc3"
+   },
+   "300":{
+      "party":"Free Soil Party",
+      "color":"#808000"
+   },
+   "310":{
+      "party":"American Party",
+      "color":"#ffd8b1"
+   },
+   "326":{
+      "party":"National Greenbacker Party",
+      "color":"#000075"
+   },
+   "340":{
+      "party":"Populist PARTY",
+      "color":"#a9a9a9"
+   },
+   "347":{
+      "party":"Prohibitionist Party",
+      "color":"#ffffff"
+   },
+   "354":{
+      "party":"Silver Republican Party",
+      "color":"#000000"
+   },
+   "355":{
+      "party":"Union Labor Party",
+      "color":"#f58231"
+   },
+   "356":{
+      "party":"Union Labor Party",
+      "color":"#f58231"
+   },
+   "370":{
+      "party":"Progressive Party",
+      "color":"#e6194b"
+   },
+   "380":{
+      "party":"Socialist Party",
+      "color":"#3cb44b"
+   },
+   "402":{
+      "party":"Liberal Party",
+      "color":"#ffe119"
+   },
+   "403":{
+      "party":"Law and Order Party",
+      "color":"#0082c8"
+   },
+   "522":{
+      "party":"American Labor Party",
+      "color":"#f032e6"
+   },
+   "523": {
+    "party": "American Labor Party (La Guardia)",
+    "color": "#f58231"
+  },
+  "537": {
+    "party": "Farmer-Labor Party",
+    "color": "#911eb4"
+  },
+  "555": {
+    "party": "Jackson Party",
+    "color": "#be3434"
+  },
+  "1060": {
+    "party": "Silver Party",
+    "color": "#000000"
+  },
+  "1111": {
+    "party": "Liberty Party",
+    "color": "#e6194b"
+  },
+  "1116": {
+    "party": "Conservative Republicans",
+    "color": "#fabebe"
+  },
+  "1275": {
+    "party": "Anti-Jacksonians",
+    "color": "#3b63c7"
+  },
+  "1346": {
+    "party": "Jackson Republican",
+    "color": "#46f0f0"
+  },
+  "3333": {
+    "party": "Opposition Party",
+    "color": "#800000"
+  },
+  "3334": {
+    "party": "Opposition Party (36th)",
+    "color": "#aa6e28"
+  },
+  "4000": {
+    "party": "Anti-Administration Party",
+    "color": "#000075"
+  },
+  "4444": {
+    "party": "Constitutional Unionist Party",
+    "color": "#e6beff"
+  },
+  "5000": {
+    "party": "Pro-Administration Party",
+    "color": "#1d6321"
+  },
+  "6000": {
+    "party": "Crawford Federalist Party",
+    "color": "#808000"
+  },
+  "7000": {
+    "party": "Jackson Federalist Party",
+    "color": "#ffd8b1"
+  },
+  "7777": {
+    "party": "Crawford Republican Party",
+    "color": "#a9a9a9"
+  },
+  "8000": {
+    "party": "Adams-Clay Federalist Party",
+    "color": "#f58231"
+  },
+  "8888": {
+    "party": "Adams-Clay Republican Party",
+    "color": "#aaffc3"
+  },
+  "328": {
+    "party": "Independent",
+    "color": "#d2f53c"
+  },
+  "329": {
+    "party": "Independent Democrat",
+    "color": "#008080"
+  },
+  "331": {
+    "party": "Independent Republican",
+    "color": "#ffe119"
+  },
+  "603": {
+    "party": "Independent Whig",
+    "color": "#808000"
+  }
+}

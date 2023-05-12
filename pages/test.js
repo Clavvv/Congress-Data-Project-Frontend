@@ -159,7 +159,7 @@ export default function ChartMock({ props }) {
                             </div>
                             <div className='flex w-4/5 h-4/5 m-3 justify-center place-self-center bg-white border border-black'>
                                 {dataChartOne ? (
-                                    <ScatPlot className='place-self-center' data={dataChartOne} variable={selectOptionOne} title={`${sliderOne} Congress Members ${selectOptionOne} Scores (${chartOneDate.start.getFullYear().toString()} - ${chartOneDate.end.getFullYear().toString()})`}/>
+                                    <ScatPlot data={dataChartOne} variable={selectOptionOne} title={`${sliderOne} Congress Members ${selectOptionOne} Scores (${chartOneDate.start.getFullYear().toString()} - ${chartOneDate.end.getFullYear().toString()})`}/>
                                 ) : (
                                     <h1 className='place-self-center'>Loading...</h1>
                                 )}
@@ -180,7 +180,7 @@ export default function ChartMock({ props }) {
                             <div className='flex h-4/5 w-4/5 m-3 bg-white justify-center place-self-center border border-black'>
 
                                 {dataChartTwo ? (
-                                    <ScatterPlot data={dataChartTwo} variable={selectOptionTwo} title={`${sliderTwo} Congress Members ${selectOptionTwo} Scores (${chartTwoDate.start.getFullYear().toString()} - ${chartTwoDate.end.getFullYear().toString()})`} />
+                                    <ScatPlot data={dataChartTwo} variable={selectOptionTwo} title={`${sliderTwo} Congress Members ${selectOptionTwo} Scores (${chartTwoDate.start.getFullYear().toString()} - ${chartTwoDate.end.getFullYear().toString()})`} />
                                 ) : (
                                     <h1 className='place-self-center'>Loading...</h1>
 
