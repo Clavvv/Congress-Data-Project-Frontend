@@ -14,6 +14,25 @@ const pool = new Pool({
 
 export default async function handleQuery(req, res) {
 
+
+  const  formatName = (someName) => {
+
+    let nameArr;
+    let lastName;
+
+
+    nameArr= someName.split(', ')
+    lastName= nameArr[0][0]+nameArr[0].slice(1).toLowerCase()
+    nameArr.shift()
+    nameArr.push(lastName)
+
+    return nameArr.join(' ')
+
+
+
+  }
+
+
   const congressNum= req.query.congress
 
   let selectNominate;
@@ -36,25 +55,16 @@ export default async function handleQuery(req, res) {
 
   const result= await pool.query(query)
 
-  /*const formatData = results.rows.map((x) => {
-    return {
-      party: x.party_code,
-      name: formatName(x.bioname),
-      nominate_dim1: x.nominate_dim1,
-      nominate_dim2: x.nominate_dim2,
-      np_score_dim1: x.nokken_poole_dim1,
-      np_score_dim2: x.nokken_poole_dim2,
-    }
-  })*/
-
   let parsedResults;
+
+  formatName('JORDAN, Allen Cum (Cummy)')
 
 
   if (selectNominate) {
 
     parsedResults= result.rows.map((row) => {
       return {
-        name: row.bioname,
+        name: formatName(row.bioname),
         party: row.party_code.toString(),
         variable_dim1: row.nominate_dim1,
         variable_dim2: row.nominate_dim2,
@@ -67,7 +77,7 @@ export default async function handleQuery(req, res) {
   } else {
     parsedResults= result.rows.map((row)=> {
       return {
-        name: row.bioname,
+        name: formatName(row.bioname),
         party: row.party_code,
         variable_dim1: row.nokken_poole_dim1,
         variable_dim2: row.nokken_poole_dim2,

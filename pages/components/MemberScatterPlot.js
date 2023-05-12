@@ -13,7 +13,6 @@ export default class ScatterPlot extends React.Component {
 
     }
 
-
   }
 
   render() {
