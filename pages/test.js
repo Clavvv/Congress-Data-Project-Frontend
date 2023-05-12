@@ -1,6 +1,5 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import ScatterPlot from './components/MemberScatterPlot'
 import ScatPlot from './components/TestScatterPlot'
 import axios from 'axios'
 import {
@@ -144,10 +143,10 @@ export default function ChartMock({ props }) {
             <div className='flex flex-col h-screen w-screen'>
                 <h2 className='flex m-4 p-2 h-6 w-full justify-center font-semibold'>Congressional Data Dashboard</h2>
                 <div className='flex flex-col h-full w-full bg-white'>
-                    <div className='flex flex-row h-2/3 w-full bg-white justify-evenly p-1 mt-10'>
-                        <div className='flex flex-col h-full w-full'>
+                    <div className='flex flex-row h-2/3 w-full bg-white justify-start p-1 mt-10'>
+                        <div className='flex flex-col h-full w-full items-end'>
                             <div className='flex justify-evenly'>
-                                <div className='flex flex-row border border-black rounded-md m-1 p-2'>
+                                <div className='flex flex-row border border-black rounded-md mr-3 p-2'>
                                     <input type="range" min="1" max="118" value={sliderOne} id="sliderOne" onChange={e => setSliderOne(e.target.value)}/>
                                     <input className='border border-black rounded-sm justify-center place-self-center w-16 h-5 mx-2 px-2 py-3' onChange={e => validateNum(e.target.value, setSliderOne)} type='number' value={sliderOne} />
 
@@ -157,7 +156,7 @@ export default function ChartMock({ props }) {
                                     </select>
                                 </div>
                             </div>
-                            <div className='flex w-4/5 h-4/5 m-3 justify-center place-self-center bg-white border border-black'>
+                            <div className='flex w-4/5 h-4/5 m-3 justify-end bg-white border border-black'>
                                 {dataChartOne ? (
                                     <ScatPlot data={dataChartOne} variable={selectOptionOne} title={`${sliderOne} Congress Members ${selectOptionOne} Scores (${chartOneDate.start.getFullYear().toString()} - ${chartOneDate.end.getFullYear().toString()})`}/>
                                 ) : (
@@ -165,19 +164,19 @@ export default function ChartMock({ props }) {
                                 )}
                             </div>
                         </div>
-                        <div className='flex flex-col h-full w-full'>
+                        <div className='flex flex-col h-full w-full items-start'>
                             <div className='flex justify-evenly'>
-                                <div className='flex flex-row border border-black rounded-md m-1 p-2'>
-                                    <input type="range" min="1" max="118" value={sliderTwo} id="sliderTwo" step='1' onChange={e => setSliderTwo(e.target.value)} />
-                                    <input className='border border-black rounded-sm justify-center place-self-center w-16 h-5 mx-2 px-2 py-3' onChange={e => validateNum(e.target.value, setSliderTwo)} type='number' value={sliderTwo} min="1" max="118" />
-
+                                <div className='flex flex-row border justify-start border-black rounded-md ml-3 p-2'>
                                     <select className='border border-black rounded-md justify-center place-self-center m-2 p-1' onChange={(e) => setSelectOptionTwo(e.target.value)} name='variable_selection' id='varselect'>
                                         <option value='nominate'>DW Nominate</option>
                                         <option value='nokken_poole'>Nokken-Poole</option>
                                     </select>
+                                    <input type="range" min="1" max="118" value={sliderTwo} id="sliderTwo" step='1' onChange={e => setSliderTwo(e.target.value)} />
+                                    <input className='border border-black rounded-sm justify-center place-self-center w-16 h-5 mx-2 px-2 py-3' onChange={e => validateNum(e.target.value, setSliderTwo)} type='number' value={sliderTwo} min="1" max="118" />
+
                                 </div>
                             </div>
-                            <div className='flex h-4/5 w-4/5 m-3 bg-white justify-center place-self-center border border-black'>
+                            <div className='flex h-4/5 w-4/5 m-3 bg-white justify-start border border-black'>
 
                                 {dataChartTwo ? (
                                     <ScatPlot data={dataChartTwo} variable={selectOptionTwo} title={`${sliderTwo} Congress Members ${selectOptionTwo} Scores (${chartTwoDate.start.getFullYear().toString()} - ${chartTwoDate.end.getFullYear().toString()})`} />
