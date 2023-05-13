@@ -24,9 +24,9 @@ export default class Home extends React.Component {
                         <button className="rounded-lg border-2 border-black p-5 w-40 text-3xl
                             focus:outline-none hover:bg-orange-600 hover:text-white hover:border-orange-600 focus:border-white "><p>Main</p></button>
                     </Link>
-                    <Link href="/test">
+                    <Link href="/compare">
                         <button className="rounded-lg border-2 border-black p-5 w-40 text-3xl 
-                            focus:outline-none hover:bg-orange-600 hover:text-white hover:border-orange-600 focus:border-white "><p>test</p></button>
+                            focus:outline-none hover:bg-orange-600 hover:text-white hover:border-orange-600 focus:border-white "><p>Compare</p></button>
                     </Link>
                     <Link href="/data">
                         <button className="rounded-lg border-2 border-black p-5 w-40 text-3xl 

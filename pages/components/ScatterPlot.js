@@ -1,11 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Scatter } from 'react-chartjs-2'
 import { Chart } from 'chart.js/auto'
+import { Router, useRouter } from 'next/router'
+import { useEffect } from 'react'
+
 
 export default function ScatPlot( props ) {
 
 
+    const router= useRouter()
     const PartyColor= require('public/data/party_code.json')
+
+    const handlePointClick= (event, elements) => {
+
+        if (elements.length) {
+
+            const clickedElement= elements[0]
+
+            const index= clickedElement.index
+
+            const clickedDataPoint= data.datasets[0].data[index]
+
+            const pointName= clickedDataPoint.name
+
+            const someUrl= `https://letmegooglethat.com/?q=${pointName.replace(' ','+')}`
+
+            router.push(someUrl)
+
+
+
+        }
+
+    }
+
 
     const data = {
 
@@ -15,7 +42,7 @@ export default function ScatPlot( props ) {
                 borderColor: 'black',
                 pointBackgroundColor: props.data.map((x) => PartyColor[x.party].color),
                 borderWidth: 1,
-                pointRadius: 3,
+                pointRadius: 2.3,
                 pointHoverRadius: 4,
 
             }
@@ -23,8 +50,10 @@ export default function ScatPlot( props ) {
     }
 
     const options= {
+
+        onClick: handlePointClick,
+
         interaction: {
-            mode: 'nearest',
             intersect: true
         },
         scales: {
@@ -50,6 +79,7 @@ export default function ScatPlot( props ) {
         plugins: {
             legend: {
                 display: false,
+            
             },
             tooltip: {
                 callbacks: {
