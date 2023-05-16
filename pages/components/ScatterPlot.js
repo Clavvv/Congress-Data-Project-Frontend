@@ -53,6 +53,7 @@ export default function ScatPlot( props ) {
 
         onClick: handlePointClick,
 
+        aspectRatio:1.75,
         interaction: {
             intersect: true
         },
@@ -60,7 +61,7 @@ export default function ScatPlot( props ) {
             x: {
                 title: {
                     display: true,
-                    text: `${props.variable} Dimension 1`,
+                    text: `Dimension 1`,
                     font: {
                         size: 18,
                     },
@@ -69,7 +70,7 @@ export default function ScatPlot( props ) {
             y: {
                 title: {
                     display: true,
-                    text: `${props.variable} Dimension 2`,
+                    text: `Dimension 2`,
                     font: {
                         size: 18,
                     },
@@ -101,7 +102,7 @@ export default function ScatPlot( props ) {
     return (
         <div className='flex flex-col items-center h-full w-full'>
 
-          <h1 className='font-semibold text-lg m-3 p-2'>{`${props.title}`}</h1>
+          <h1 className='font-semibold text-md m-3 p-2'>{`${props.title}`}</h1>
           <Scatter className='justify-center place-self-center' data={data} options={options}/>
 
       </div>

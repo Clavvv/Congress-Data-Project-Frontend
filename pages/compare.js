@@ -12,6 +12,7 @@ import {
     Legend,
     BarElement,
 } from 'chart.js'
+import NavBar from './components/Navigation'
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -138,13 +139,17 @@ export default function ChartMock({ props }) {
 
     const nominate_redirect= 
     <a 
+        target="_blank" 
+        rel="noopener noreferrer"
         href= 'https://en.wikipedia.org/wiki/NOMINATE_(scaling_method)' 
         className='hover:underline hover:decoration-sky-600 hover:decoration-2 hover:underline-offset-4'>
         NOMINATE
     </a>
     
     const nokken_redirect= 
-    <a 
+    <a
+        target="_blank" 
+        rel="noopener noreferrer" 
         href= "https://onlinelibrary.wiley.com/doi/abs/10.3162/036298004X201294" 
         className='hover:underline hover:decoration-sky-600 hover:decoration-2 hover:underline-offset-4'>
         Nokken-Poole
@@ -154,8 +159,8 @@ export default function ChartMock({ props }) {
         <>
 
             <div className='flex flex-col h-screen w-screen bg-slate-100'>
-                <h2 className='flex h-10 w-full justify-center font-semibold bg-slate-200'>Navigation Bar</h2>
-                <div className='flex flex-col place-self-center h-full w-3/4 bg-white drop-shadow-lg mb-4'>
+                <NavBar />
+                <div className='flex flex-col place-self-center h-full w-2/3 bg-white drop-shadow-lg mb-4'>
                     <div className='flex flex-row h-full w-full bg-white justify-center place-self-center p-1 mt-10 mb-5'>
                         <div className='flex flex-col h-full w-full items-end'>
                             <div className='flex justify-evenly'>
@@ -205,9 +210,15 @@ export default function ChartMock({ props }) {
                         <h1 className='text-xl font-semibold text-start mx-6 mb-2 underline decoration-slate-950'> Understanding the Data</h1>
                         <p className='text-justify tracking-wide mx-5 px-1 text-slate-950 leading-relaxed'>
                             The {nominate_redirect} ideology measurement and the {nokken_redirect} model provide two primary estimates for assessing a legislator's 
-                            ideology. {nominate_redirect} assumes a static ideological position over a legislator's career, while {nokken_redirect}
-                            treats each congressional session as separate, capturing evolving ideologies. Both methods are widely used in 
-                            political science research and offer valuable insights into legislators' beliefs.</p>
+                            ideology. {nominate_redirect} assumes a static ideological position over a legislator's career, 
+                            while {nokken_redirect} treats each congressional session as separate, capturing evolving ideologies. 
+                            Both of these models evaluate legislator ideology along two dimensions: the economic dimension, which 
+                            reflects positions on economic policies, and the social dimension, which captures 
+                            positions on relevant social and cultural issues.
+                            These methods are widely used in political science research and offer valuable insights into legislators' beliefs.
+                        </p>
+                        <p className='text-sm text-start tracking-wide mx-6 mt-4 text-slate-950'>For more information visit <a target="_blank" rel="noopener noreferrer" className= 'italic hover:underline hover:decoration-sky-600 hover:decoration-2 hover:underline-offset-4' href= 'https://voteview.com'>voteview</a> </p>
+                    
                     </div>
 
                 </div>
