@@ -24,7 +24,7 @@ ChartJS.register(
 )
 
 
-export default function ChartMock({ props }) {
+export default function Compare({ props }) {
 
     const [sliderOne, setSliderOne] = useState('118');
 
@@ -142,7 +142,7 @@ export default function ChartMock({ props }) {
         target="_blank" 
         rel="noopener noreferrer"
         href= 'https://en.wikipedia.org/wiki/NOMINATE_(scaling_method)' 
-        className='hover:underline hover:decoration-sky-600 hover:decoration-2 hover:underline-offset-4'>
+        className='hover:underline hover:decoration-sky-500 hover:decoration-2 hover:underline-offset-4'>
         NOMINATE
     </a>
     
@@ -151,17 +151,17 @@ export default function ChartMock({ props }) {
         target="_blank" 
         rel="noopener noreferrer" 
         href= "https://onlinelibrary.wiley.com/doi/abs/10.3162/036298004X201294" 
-        className='hover:underline hover:decoration-sky-600 hover:decoration-2 hover:underline-offset-4'>
+        className='hover:underline hover:decoration-sky-500 hover:decoration-2 hover:underline-offset-4'>
         Nokken-Poole
      </a>
 
     return (
         <>
 
-            <div className='flex flex-col h-screen w-screen bg-slate-100'>
+            <div className='flex flex-col h-screen w-screen bg-slate-50'>
                 <NavBar />
-                <div className='flex flex-col place-self-center h-full w-2/3 bg-white drop-shadow-lg mb-4'>
-                    <div className='flex flex-row h-full w-full bg-white justify-center place-self-center p-1 mt-10 mb-5'>
+                <div className='flex flex-col place-self-center h-full w-2/3 bg-slate-50 drop-shadow-lg mb-4'>
+                    <div className='flex flex-row h-full w-full bg-slate-50 justify-center place-self-center p-1 mt-10 mb-5'>
                         <div className='flex flex-col h-full w-full items-end'>
                             <div className='flex justify-evenly'>
                                 <div className='flex flex-row border border-black rounded-md mr-3 p-2'>

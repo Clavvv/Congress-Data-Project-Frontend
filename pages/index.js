@@ -20,10 +20,6 @@ export default class Home extends React.Component {
                 	  <p className="font-sans font-semibold text-2xl">Process Development</p>
 		            </div>
                 <div className="flex flex-row gap-5 place-items-center justify-evenly">
-                    <Link href="/main">
-                        <button className="rounded-lg border-2 border-black p-5 w-40 text-3xl
-                            focus:outline-none hover:bg-orange-600 hover:text-white hover:border-orange-600 focus:border-white "><p>Main</p></button>
-                    </Link>
                     <Link href="/compare">
                         <button className="rounded-lg border-2 border-black p-5 w-40 text-3xl 
                             focus:outline-none hover:bg-orange-600 hover:text-white hover:border-orange-600 focus:border-white "><p>Compare</p></button>
@@ -32,13 +28,13 @@ export default class Home extends React.Component {
                         <button className="rounded-lg border-2 border-black p-5 w-40 text-3xl 
                             focus:outline-none hover:bg-orange-600 hover:text-white hover:border-orange-600 focus:border-white "><p>Data</p></button>
                     </Link>
-                    <Link href="/osmo">
+                    <Link href="/members">
                         <button className="rounded-lg border-2 border-black p-5 w-40 text-3xl 
-                            focus:outline-none hover:bg-orange-600 hover:text-white hover:border-orange-600 focus:border-white "><p>Osmo</p></button>
+                            focus:outline-none hover:bg-orange-600 hover:text-white hover:border-orange-600 focus:border-white "><p>Members</p></button>
                     </Link>
-                    <Link href="/pcv">
+                    <Link href="/">
                         <button className="rounded-lg border-2 border-black p-5 w-40 text-3xl 
-                            focus:outline-none hover:bg-orange-600 hover:text-white hover:border-orange-600 focus:border-white "><p>PCV</p></button>
+                            focus:outline-none hover:bg-orange-600 hover:text-white hover:border-orange-600 focus:border-white "><p>Sources</p></button>
                     </Link>
                 </div>
                     <div className="flex flex-col place-items-center justify-evenly">

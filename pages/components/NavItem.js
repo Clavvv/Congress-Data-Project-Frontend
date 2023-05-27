@@ -10,9 +10,11 @@ export default function NavItem( props ) {
 
         <Link className= 'p-1' href= {props.link}>
 
-                <button className='px-2 py-1 rounded-sm border border-slate-50 text-white text-md hover:bg-slate-50 hover:text-slate-950'>
+                <button className='content-center py-1 px-1 text-slate-50 text-md hover:underline hover:decoration-sky-500 hover:decoration-2 hover:underline-offset-8 focus:border-slate-900 focus:outline-none'>
 
-                    <p>{props.text}</p>
+                    <p className="place-self-center">
+                        {props.text}
+                    </p>
 
                 </button>
 
