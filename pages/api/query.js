@@ -57,9 +57,6 @@ export default async function handleQuery(req, res) {
 
   let parsedResults;
 
-  formatName('JORDAN, Allen Cum (Cummy)')
-
-
   if (selectNominate) {
 
     parsedResults= result.rows.map((row) => {

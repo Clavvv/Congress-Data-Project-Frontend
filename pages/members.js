@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import Image from "next/image";
-import NavBar from "./components/Navigation";
+import NavBar from "../components/Navigation";
 import sample_image from "../public/data/sample_member_image.jpg";
 
 
@@ -45,17 +45,17 @@ export default function Member({ props }) {
 
             <NavBar />
 
-            <div className='flex flex-col h-full w-3/5 drop-shadow-lg bg-cyan-50 place-self-center p-1 mb-5'>
+            <div className='flex flex-col h-full w-3/5 drop-shadow-lg bg-slate-50 place-self-center p-1 mb-5'>
 
                 <div className='flex flex-row'>
                     <div className='flex flex-row h-full w-full'>
 
                         <div className="flex flex-grow h-64 w-64 ml-5 mt-5 bg-slate-50 drop-shadow-lg justify-center">
 
-                            <Image src={sample_image} className="place-self-center" />
+                            <Image src={sample_image} className="place-self-center border-black border rounded-full" />
 
                         </div>
-                        <div className="flex flex-col h-1/2 bg-slate-50 pr-5 mt-20 w-full justify-center">
+                        <div className="flex flex-col h-1/2 bg-slate-50 pr-5 mt-20 w-full justify-center drop-shadow-lg">
 
                             <h1 autofocus className="mt-8 font-serif indent-24 text-bold text-4xl tracking-wider font-medium place-self-start">
                                 {memberInfo.name}

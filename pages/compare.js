@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import ScatPlot from './components/ScatterPlot'
+import ScatPlot from '../components/ScatterPlot'
 import axios from 'axios'
 import {
     Chart as ChartJS,
@@ -12,7 +12,7 @@ import {
     Legend,
     BarElement,
 } from 'chart.js'
-import NavBar from './components/Navigation'
+import NavBar from '../components/Navigation'
 ChartJS.register(
     CategoryScale,
     LinearScale,

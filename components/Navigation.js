@@ -2,8 +2,8 @@ import {useEffect, useState, React} from 'react'
 import Link from 'next/link'
 import Image from 'next/image';
 import NavItem from './NavItem';
-import github_dark from '../../public/data/github_dark.png'
-import linkedin_white from '../../public/data/linkedin_white.png'
+import github_dark from '../public/data/github_dark.png'
+import linkedin_white from '../public/data/linkedin_white.png'
 
 export default function NavBar() {
 
