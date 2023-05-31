@@ -65,6 +65,7 @@ export default async function handleQuery(req, res) {
         party: row.party_code.toString(),
         variable_dim1: row.nominate_dim1,
         variable_dim2: row.nominate_dim2,
+        member_id: row.bioguide_id,
 
       }
 
@@ -78,6 +79,7 @@ export default async function handleQuery(req, res) {
         party: row.party_code,
         variable_dim1: row.nokken_poole_dim1,
         variable_dim2: row.nokken_poole_dim2,
+        member_id: row.bioguide_id,
 
       }
 

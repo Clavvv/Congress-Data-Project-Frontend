@@ -21,11 +21,13 @@ export default function ScatPlot( props ) {
 
             const clickedDataPoint= data.datasets[0].data[index]
 
-            const pointName= clickedDataPoint.name
+            const pointIdNum= clickedDataPoint.member_id
 
-            const someUrl= `https://letmegooglethat.com/?q=${pointName.replace(' ','+')}`
+            console.log(clickedDataPoint.member_id)
 
-            router.push(someUrl)
+            router.push({pathname: '/members',
+                        query: {member_id: clickedDataPoint.member_id}
+            });
 
 
 
@@ -38,7 +40,7 @@ export default function ScatPlot( props ) {
 
         datasets: [
             {
-                data: props.data.map((x) => ({ x: x.variable_dim1, y: x.variable_dim2, party: PartyColor[x.party].party, name: x.name })),
+                data: props.data.map((x) => ({ x: x.variable_dim1, y: x.variable_dim2, party: PartyColor[x.party].party, name: x.name, member_id: x.member_id})),
                 borderColor: 'black',
                 pointBackgroundColor: props.data.map((x) => PartyColor[x.party].color),
                 borderWidth: 1,
@@ -48,6 +50,8 @@ export default function ScatPlot( props ) {
             }
         ]
     }
+
+    console.log(data.datasets[0].member_id)
 
     const options= {
 
@@ -89,7 +93,7 @@ export default function ScatPlot( props ) {
                     },
                     label: function (tooltipItem) {
                         const labelData= tooltipItem.dataset.data[tooltipItem.dataIndex]
-                        return `${labelData.name} (${labelData.party}): ${labelData.x}, ${labelData.y}`
+                        return `${labelData.name} (${labelData.party}): ${labelData.x}, ${labelData.y}, ${labelData.member_id}`
                     },
                 },
                 font: {

@@ -31,7 +31,7 @@ export default function NavBar() {
             <div className= 'flex h-full w-full justify-start gap-4'>
             <NavItem link= '/' text='Home' />
 
-            <NavItem link='/compare' text='Data' />
+            <NavItem link='/compare' text='Compare' />
 
             <NavItem link='/members' text='Members' />
 

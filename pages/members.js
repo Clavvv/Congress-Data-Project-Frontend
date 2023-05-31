@@ -2,6 +2,7 @@ import { React, useState, useEffect } from "react";
 import Image from "next/image";
 import NavBar from "../components/Navigation";
 import sample_image from "../public/data/sample_member_image.jpg";
+import axios from "axios";
 
 
 
@@ -17,6 +18,32 @@ export default function Member({ props }) {
 
 
 
+    const fetchBio= async (someState, currMember) => {
+
+
+
+        const apiUrl= '/api/memberQuery';
+
+        const params= {
+
+            id: currMember,
+
+        };
+
+
+        try {
+            let response= await axios.get(apiUrl, { params });
+            let data= response.data;
+
+            console.log(data)
+
+            return data;
+        } catch (error) {
+            console.error(error);
+        }
+
+
+    }
 
 
 
@@ -29,9 +56,14 @@ export default function Member({ props }) {
 
 
 
-    let biography= <p className = 'flex border-black place-self-center justify-center mx-24 my-5' >{ memberInfo.biography }</p >
 
-    let votesDisplay= <p className = 'flex border-black place-self-center justify-center mx-24 my-5'>{ memberInfo.votes }</p>
+
+
+    let biography= <p className = 'flex border-black place-self-center justify-center mx-24 my-5' >{ memberInfo.biography }</p>;
+
+    let votesDisplay= <p className = 'flex border-black place-self-center justify-center mx-24 my-5'>{ memberInfo.votes }</p>;
+
+    let errorDisplay= <p className = 'flex border-black place-self-center justify-center mx-24 my-5'> Not Available</p>;
 
         
 
@@ -57,23 +89,28 @@ export default function Member({ props }) {
                         </div>
                         <div className="flex flex-col h-1/2 bg-slate-50 pr-5 mt-20 w-full justify-center drop-shadow-lg">
 
-                            <h1 autofocus className="mt-8 font-serif indent-24 text-bold text-4xl tracking-wider font-medium place-self-start">
+                            <h1 className="mt-8 font-serif indent-24 text-bold text-4xl tracking-wider font-medium place-self-start">
                                 {memberInfo.name}
                             </h1>
 
                             <div className="flex flex-row justify-start pt-1 px-16 mt-5">
 
-                                <button /*onClick= {setDisplayOption(0)} */  className="place-self-center focus:text-slate-950 text-gray-400 focus:underline focus:decoration-sky-600 focus:underline-offset-8 focus:decoration-4 px-3 mx-5">
-                                    Biography
-                                </button>
+                                {(displayOption == 0) ? 
+                                
+                                <button onClick= {e => setDisplayOption(0)} className="place-self-center text-slate-950 underline decoration-sky-600 underline-offset-8 decoration-4 px-3 mx-5"> Biography</button> 
+                                : 
+                                <button onClick= {e => setDisplayOption(0)} className="place-self-center text-gray-400 px-3 mx-5"> Biography</button>}
 
-                                <button /* onClick= {setDisplayOption(1)} */ className="place-self-center focus:text-slate-950 text-gray-400 focus:underline focus:decoration-sky-600 focus:underline-offset-8 focus:decoration-4 px-3 mx-5">
-                                    Votes
-                                </button>
+                                {(displayOption == 1) ?
+                                <button onClick= {e => setDisplayOption(1)} className="place-self-center text-slate-950 underline decoration-sky-600 underline-offset-8 decoration-4 px-3 mx-5">Vote</button>
+                                :
+                                <button onClick= {e => setDisplayOption(1)} className="place-self-center text-gray-400 px-3 mx-5"> Vote</button>}
 
-                                <button className="place-self-center focus:text-slate-950 text-gray-400 focus:underline focus:decoration-sky-600 focus:underline-offset-8 focus:decoration-4 px-3 mx-5">
-                                    Compare Members
-                                </button>
+                                {(displayOption == 2) ?
+                                <button onClick= {e => setDisplayOption(2)} className="place-self-center text-slate-950 underline decoration-sky-600 underline-offset-8 decoration-4 px-3 mx-5">Compare Members</button>
+                                :
+                                <button onClick= {e => setDisplayOption(2)} className="place-self-center text-gray-400 px-3 mx-5"> Compare Members</button>}
+                    
 
 
                             </div>
@@ -132,7 +169,7 @@ export default function Member({ props }) {
 
                     <div className="flex flex-col order-2">
 
-                        {(displayOption === 0 ? biography : "Not Available" )}
+                        {(displayOption === 0 ? biography : errorDisplay )}
 
                     </div>
 
@@ -150,4 +187,44 @@ export default function Member({ props }) {
 
 
 
+}
+
+
+export async function getServerSideProps(context) {
+
+    const member_id= (context.query.member_id != undefined) ? context.query.member_id : "Default Value"
+
+    const fetchBio= async (currMember) => {
+
+
+
+        const apiUrl= 'http://localhost:3000/api/memberQuery';
+
+        console.log(currMember)
+
+        const params= {
+
+            member_id: currMember,
+
+        };
+
+
+        try {
+            let response= await axios.get(apiUrl, { params });
+            let data= response.data;
+            return data;
+        } catch (error) {
+            console.error(error);
+        }
+
+
+    }
+
+    let response= await fetchBio(member_id);
+
+    console.log(response);
+
+
+
+    return { props: { data: null } };
 }
