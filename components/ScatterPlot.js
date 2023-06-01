@@ -7,6 +7,8 @@ import { useEffect } from 'react'
 
 export default function ScatPlot( props ) {
 
+    console.log("HELLO!")
+
 
     const router= useRouter()
     const PartyColor= require('public/data/party_code.json')

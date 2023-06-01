@@ -5,105 +5,43 @@ import sample_image from "../public/data/sample_member_image.jpg";
 import axios from "axios";
 import SearchLandingPage from "../components/memberSearch";
 import api_keys from 'private/api_keys.json' assert {type: 'json'};
-
-
-
-
+import VoteTable from "../components/memberVoteTable";
 
 
 export default function Member(props) {
 
-    const reformatVotes = (voteObj) => {
-        let arr = [];
-
-        for (let i = 0; i < 20; i++) {
-
-            arr.push(voteObj[i.toString()])
-
-        }
-
-        return arr;
-    }
-    const [memberInfo, setMemberInfo] = useState({
-        party: "Republican", name: "Johnny Crimson", district: "California District -99", biography: "Johnny Crimson was born in San Francisco California in 1921 to a family of onion farmers in the Salinas Valley. Johnny attended Cal State East Bay where he studied Philosophy and Musical Chairs.",
-        votes: "Chart Coming Soon"
-    });
-
-    const [voteData, setVoteData] = useState(reformatVotes(props.vote_data.votes));
-
-    const [displayOption, setDisplayOption] = useState(0);
-
-    const [recentVoteActivity, setRecentVoteActivity] = useState(null);
-
-    let biographyDisplay = <p className='flex border-black place-self-center justify-center mx-24 my-5' >{memberInfo.biography}</p>;
-
-    let votesDisplay =
-        <div className="flex flex-col">
-            <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                    <div className='shadow overflow-auto border-b border-gray-200 sm:rounded-lg mr-24 ml-5 mb-5'>
-                        <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50 ">
-                                <tr>
-                                    <th scope="col"
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Date
-                                    </th>
-                                    <th scope="col"
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Description
-                                    </th>
-                                    <th scope="col"
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Position
-                                    </th>
-                                    <th scope="col"
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Result
-                                    </th>
-                                    <th scope="col"
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Vote Chart
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {voteData.map(vote => (
-                                    <tr key={vote.date}>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div>{vote.date}</div>
-                                        </td>
-                                        <td className="px-6 py-4 text-sm text-ellipsis">
-                                            {vote.description}
-                                        </td>
-                                        <td className="px-6 py-4 text-sm text-clip">
-                                            {vote.position}
-                                        </td>
-                                        <td className="px-6 py-4 text-sm text-clip">
-                                            {vote.result}
-                                        </td>
-                                        <td className= "px-6 py-4 text-sm text-clip whitespace-nowrap">
-                                            ...
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    let errorDisplay = <p className='flex border-black place-self-center justify-center mx-24 my-5'> Not Available</p>;
-
-    const defaultPage = props.data;
-
-    if (defaultPage == false) {
+    if (props.vote_data == false) {
 
         return (<SearchLandingPage />)
 
 
     } else {
+        
+        const reformatVotes = (voteObj) => {
+            let arr = [];
+
+            for (let i = 0; i < 20; i++) {
+
+                arr.push(voteObj[i.toString()])
+
+            }
+
+            return arr;
+        }
+
+        const [memberInfo, setMemberInfo] = useState({
+            party: "Republican", name: "Johnny Crimson", district: "California District -99", biography: "Johnny Crimson was born in San Francisco California in 1921 to a family of onion farmers in the Salinas Valley. Johnny attended Cal State East Bay where he studied Philosophy and Musical Chairs.",
+            votes: "Chart Coming Soon"
+        });
+
+        const [voteData, setVoteData] = useState(reformatVotes(props.vote_data.votes));
+
+        const [displayOption, setDisplayOption] = useState(0);
+
+        let biographyDisplay = <p className='flex border-black place-self-center justify-center mx-24 my-5' >{memberInfo.biography}</p>;
+
+        let errorDisplay = <p className='flex border-black place-self-center justify-center mx-24 my-5'> Not Available</p>;
+
         return (
             <div className='flex flex-col h-screen w-screen bg-white'>
 
@@ -201,7 +139,7 @@ export default function Member(props) {
 
                         <div className="flex flex-col overscroll-contain order-2">
 
-                            {(displayOption == 0 ? biographyDisplay : displayOption == 1 ? votesDisplay : errorDisplay)}
+                            {(displayOption == 0 ? biographyDisplay : displayOption == 1 ? <VoteTable data={voteData} /> : errorDisplay)}
 
                         </div>
 
@@ -228,7 +166,7 @@ export async function getServerSideProps(context) {
 
     if (!member_id) {
 
-        return { props: { data: false } };
+        return { props: { vote_data: false } };
 
     } else {
 
