@@ -3,12 +3,14 @@ import Image from "next/image";
 import NavBar from "../components/Navigation";
 import sample_image from "../public/data/sample_member_image.jpg";
 import axios from "axios";
+import SearchLandingPage from "../components/memberSearch";
 
 
 
 
 
-export default function Member({ props }) {
+
+export default function Member(props) {
 
 
     const [memberInfo, setMemberInfo] = useState({ party: "Republican", name: "Johnny Crimson", district: "California District -99", biography: "Johnny Crimson was born in San Francisco California in 1921 to a family of onion farmers in the Salinas Valley. Johnny attended Cal State East Bay where he studied Philosophy and Musical Chairs.", 
@@ -16,6 +18,7 @@ export default function Member({ props }) {
 
     const [displayOption, setDisplayOption] = useState(0)
 
+    console.log(props.data)
 
 
     const fetchBio= async (someState, currMember) => {
@@ -65,14 +68,14 @@ export default function Member({ props }) {
 
     let errorDisplay= <p className = 'flex border-black place-self-center justify-center mx-24 my-5'> Not Available</p>;
 
-        
+    const defaultPage= props.data;
+    if (defaultPage == false) {
+
+        return (<SearchLandingPage/>)
 
 
-
-
-
-    return (
-
+    } else {
+        return (
         <div className='flex flex-col h-screen w-screen bg-white'>
 
             <NavBar />
@@ -181,8 +184,8 @@ export default function Member({ props }) {
 
         </div>
 
-
     )
+                                }
 
 
 
@@ -192,7 +195,15 @@ export default function Member({ props }) {
 
 export async function getServerSideProps(context) {
 
-    const member_id= (context.query.member_id != undefined) ? context.query.member_id : "Default Value"
+    const member_id= (context.query.member_id != undefined) ? context.query.member_id : false
+
+    if (!member_id) {
+
+        return { props: { data: false } };
+            
+    }
+
+
 
     const fetchBio= async (currMember) => {
 
@@ -222,9 +233,5 @@ export async function getServerSideProps(context) {
 
     let response= await fetchBio(member_id);
 
-    console.log(response);
-
-
-
-    return { props: { data: null } };
+    return { props: { data: response } };
 }
