@@ -24,7 +24,7 @@ export default async function Main(req, res) {
 
   axios.get(API_URL, api_config)
     .then((response) => {
-      res.status(200).json(response.data);
+      res.status(200);
     })
     .catch((err) => {
       console.error(err);
